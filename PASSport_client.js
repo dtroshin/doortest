@@ -1203,17 +1203,20 @@ function learnPetTimedOut() {
 function showStep_namePet() {
     hideAllInMainPanel();
     document.getElementById("tbPetName").value = "";
+    document.getElementById("add-pets").style.display = 'block';
     document.getElementById("namePet").style.display = 'block';
     document.getElementById("tbPetName").focus();
 }
 
 function showStep_addPet1() {
     hideAllInMainPanel();
+    document.getElementById("add-pets").style.display = 'block';
     document.getElementById("learnPet1").style.display = 'block';
 }
 
 function showStep_addPet2() {
     hideAllInMainPanel();
+    document.getElementById("add-pets").style.display = 'block';
     document.getElementById("learnPet2").style.display = 'block';
 
     //start countdown timer
@@ -1633,6 +1636,7 @@ function hideAllInMainPanel() {
     document.getElementById('PetSettings').style.display = 'none';
 
     document.getElementById('namePet').style.display = 'none';
+    document.getElementById('add-pets').style.display = 'none';
     document.getElementById('learnPet1').style.display = 'none';
     document.getElementById('learnPet2').style.display = 'none';
 }

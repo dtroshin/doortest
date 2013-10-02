@@ -645,44 +645,7 @@
                     </div>
                 </div>
 
-                <!-- add pet pages -->
-                <div id="add-pets">
-                    <div id="namePet">
-                        <br /><br /><br /><br />
-                        <center>
-                            <h2>Add a pet:</h2>
-                            Enter a name for this pet:<br />
-                            <input id="tbPetName" type="text" maxlength="12" style="outline:none;"/>
-                            <br /><br /><br /><button onclick="showPetSettings()" class="clearbutton">
-                            <img src="img/Cancel.png" alt="Cancel" width="80" />
-                        </button>
-                            <button onclick="namePet_next()" style="border:0px; background-color:transparent;">
-                                <img src="img/Next.png" alt="next" width="80" />
-                            </button>
-                        </center>
-                    </div>
-                    <div id="learnPet1">
-                        <center>
-                            <h2>Add Pet's ID</h2>
-                        </center>
-                        Adding a pet's Passport Key is time sensitive. You will have 30 seconds to add a pet. <br /><br />
-                        Bring your Pet / Key to door. Hold Passport Key 5-6 inches from center of main flap and parallel to flap. Wait for key to program during the 30 second countdown.<br /><br/>
-                        Then click the <strong>next</strong> button.
-                        <br /><br /><br />
-                        <center>
-                            <button onclick="showStep_namePet()" style="border:0px; background-color:transparent;"><img src="img/Prev.png" alt="next" width="80" /></button>
-                            <button onclick="learnPet1_next()" style="border:0px; background-color:transparent;"><img src="img/Next.png" alt="next" width="80" /></button>
-                        </center>
-                    </div>
-                    <div id="learnPet2">
-                        <center>
-                            <img src = "img/clock.gif" width="150" alt="clock" />
-                            <h2>Reading your pet's ID...</h2>
-                        </center>
-                        You should hear the door beep 3 times when <strong><span id="curPetName">this pet</span>'s</strong> pet ID has been added. <br /><br />
-                        <strong><span id="secsRemaining">30</span></strong> Seconds Remaining
-                    </div>
-                </div>
+
 
                 <!-- pop up window for editing pet timers-->
                 <div id="PopUpTimerEditor">
@@ -732,8 +695,7 @@
 
                     <!-- Canvas -->
                     <canvas id="myCanvas"></canvas>
-                    <div style="border-style:none; border-color:Red; width:100px; float:left;"></div>
-                    <div style="border-style:none; border-color:Red; width:450px; line-height:20px; float:right; background-color:#E6E8FA; margin-right:20px;">
+                    <div id="color-key">
                         <div class="timer-color-wrapper">
                             <div id="Blue-Color-Block"></div>
                             &nbsp;&nbsp;<span>In/Out</span>
@@ -748,8 +710,8 @@
                             <div id="Lime-Color-Block"></div>
                             &nbsp;&nbsp;<span>Out Only</span>
                         </div>
+                        <div style="clear:both;"></div>
                     </div>
-                    <div style="clear:both;"></div>
 
                     <!-- Cancel/OK buttons -->
                     <div id="timer-cancel-ok-wrapper">
@@ -777,6 +739,47 @@
                 </div>
             </div>
 
+            <!-- add pet pages -->
+            <div id="add-pets" class="right-content-wrap">
+                <div class="door-width-bounds">
+                    <div id="namePet">
+                        <br /><br /><br /><br />
+                        <center>
+                            <h2>Add a pet:</h2>
+                            Enter a name for this pet:<br />
+                            <input id="tbPetName" type="text" maxlength="12" style="outline:none;"/>
+                            <br /><br /><br /><button onclick="showPetSettings()" class="clearbutton">
+                            <img src="img/Cancel.png" alt="Cancel" width="80" />
+                        </button>
+                            <button onclick="namePet_next()" style="border:0px; background-color:transparent;">
+                                <img src="img/Next.png" alt="next" width="80" />
+                            </button>
+                        </center>
+                    </div>
+                    <div id="learnPet1">
+                        <center>
+                            <h2>Add Pet's ID</h2>
+                        </center>
+                        <p>
+                            Adding a pet's Passport Key is time sensitive. You will have 30 seconds to add a pet. <br /><br />
+                            Bring your Pet / Key to door. Hold Passport Key 5-6 inches from center of main flap and parallel to flap. Wait for key to program during the 30 second countdown.<br /><br/>
+                            Then click the <strong>next</strong> button.
+                        </p>
+                        <center>
+                            <button onclick="showStep_namePet()" style="border:0px; background-color:transparent;"><img src="img/Prev.png" alt="next" width="80" /></button>
+                            <button onclick="learnPet1_next()" style="border:0px; background-color:transparent;"><img src="img/Next.png" alt="next" width="80" /></button>
+                        </center>
+                    </div>
+                    <div id="learnPet2">
+                        <center>
+                            <img src = "img/clock.gif" width="150" alt="clock" />
+                            <h2>Reading your pet's ID...</h2>
+                        </center>
+                        You should hear the door beep 3 times when <strong><span id="curPetName">this pet</span>'s</strong> pet ID has been added. <br /><br />
+                        <strong><span id="secsRemaining">30</span></strong> Seconds Remaining
+                    </div>
+                </div>
+            </div>
             <!--copyright-->
             <div id="copyright">
                 <span>&copy 2013 Radio Systems Corporation. All Rights Reserved.</span>

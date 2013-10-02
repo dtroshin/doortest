@@ -168,7 +168,9 @@ body{
     font-family:Verdana;
     font-size:8.25pt;
 }
-
+.centertxt{
+    text-align: center;
+}
 a:link {color:#FFFFFF;}      /* unvisited link */
 a:visited {color:#FFFFFF;}  /* visited link */
 a:hover {color:#00FF00;}  /* mouse over link */
@@ -184,7 +186,6 @@ a:active {color:#FFFFFF;}  /* selected link */
     background-size: 100% 100%;
 }
 #left-side{
-    font-size:8.25pt;
     position:relative;
     height:100%;
     width:52%;
@@ -208,8 +209,6 @@ a:active {color:#FFFFFF;}  /* selected link */
     display: inline-block;
     line-height:30px;
     font-weight:bold;
-    font-family:Verdana
-    font-size: 8.25pt;
 }
 .nav-divider{
     color:Teal;
@@ -295,12 +294,6 @@ a:active {color:#FFFFFF;}  /* selected link */
     font-size:9.75pt;
     text-align:center;
 }
-/*.left-text{
-    text-align: left;
-    width:85%;
-    padding:0 2%;
-    margin: 0 auto;
-}*/
 #LCD{
     width:130px;
     height:55px;
@@ -440,7 +433,7 @@ a.button-short{
 #sidePnlHome,#sidePnlPetStatus_help,#PetStatus,#sidePnlUpdates,#sidePnlSupport,
 #sidePnlDoorSettings_help, #DoorSettings,
 #sidePnlPetSettings_help, #PetSettings,
-#nameDoor, #setTimeDate, #namePet,
+#nameDoor, #setTimeDate, #namePet,#add-pets,
 #learnPet1, #learnPet2,#allFinished,#setLanguage{
     display:none;
 }
@@ -516,23 +509,20 @@ img.hidden{
 .TimerBase{
     border-style:solid;
     border-color:Gray;
+    width:330px;
+    height:200px;
+    float:left;
 }
 #topleft_text{
     border-left-style:none;
     padding:0px 0px 0px 0px;
-    width:330px;
-    height:200px;
     font-size:14px;
-    float:left;
     margin-left:20px;
 }
 #topleft_editor{
     border-left-style:none;
     display:none;
     margin-left:20px;
-    float:left;
-    width:330px;
-    height:200px;
 }
 #topright{
     border-right-style:none;
@@ -555,8 +545,12 @@ img.hidden{
     width:658px;
     height:60px;
     margin: 0 20px;
-    border-style:none;
-    border-color:Gray;
+}
+#color-key{
+    width:450px;
+    line-height:20px;
+    background-color:#E6E8FA;
+    margin-left: 228px;
 }
 #Blue-Color-Block,
 #Red-Color-Block,
@@ -572,11 +566,9 @@ img.hidden{
 #Lime-Color-Block{
     background-color:Lime;
 }
-#add-pets{
-    width:265px;
-    margin-left:auto;
-    margin-right:25px;
-    border-style:none;
+#{
+
+    border-style:solid;
     border-color:Red;
 }
 .PopUpBase{
