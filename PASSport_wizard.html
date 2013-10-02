@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="../_common/jquery.js"></script>
+    <script src="../_common/jqueryui.js"></script>
+    <link rel="stylesheet" href="../_common/jqueryui.css" />
+    <!--<link rel="stylesheet" href="jquery-ui-1.10.2.custom/css/custom-theme/jquery-ui-1.10.2.custom.css" />-->
+    <script src="../_common/RSC_Connectivity_H_client.js"></script>
+    <script src="RFID_App_H_client.js"></script>
+    <script src="Config_H_client.js"></script>
+    <script src="PASSport_objects.js"></script>
+    <script src="PASSport_msg_generator.js"></script>
+    <script src="PASSport_msg_parser.js"></script>
+    <script src="PASSport_wizard.js"></script>
+</head>
+<body>
+<div id="sidePnlDebug" style="display:none;">
+    <!-- style="position:absolute; right:0px; top:0px;" -->
+    <button type="button" onclick="btnTone_Clicked()">Tone</button>
+    <button type="button" onclick="btnPower_Clicked()">Power</button>
+    Last message received:
+    <div id="textDisplay">[...] </div>
+</div>
+    <div id="wrapper">
+        <div id="footer">
+            <img id="petsafe-logo" src="img/PetSafe_process_White_Tag_smaller.png" alt="#" />
+            <!-- alert box -->
+            <div class="MessageBox" id="MessageBoxBig" >
+                <div style="position:relative; float:right;">
+                    <button onclick="btnCloseAlert_onclick()" class="close-button"></button>
+                    <div style="width:16px; height:10px; float:right;"></div>
+                </div><!-- close button -->
+                <p><span class="alertText">
+                    --------------------------
+                    </span>
+                </p>
+            </div>
+         </div>
+        <div id="left-side">
+            <img src="img/passport_logo_wo_BG1.png" alt="#"/>
+            <div class="left-content-wrap">
+                <span class="WizMainTitle">Door Setup Wizard&nbsp&nbsp</span>
+                <a href="#" onclick="window.location.href = '/apps/PASSport/PASSport_main.html'" class="button-long">Skip Wizard</a>
+                <div class="wizard-left-content">
+                    <span class="CurrentChapter" id="Chapter1" >• Door Setup</span><br />
+                    <div>
+                        <p>
+                            <img id="imgCheckSetLanguage" src="" alt="#" class="hidden"/>
+                            <span id="lblSetLanguage" class="currentStep"> Set Language</span><br />
+                        </p>
+                        <p>
+                            <img id="imgCheckNameDoor" src="" alt="#" class="hidden"/>
+                            <span id="lblNameDoor" class="otherSteps">Name Door</span>
+                        </p>
+                        <p>
+                            <img id="imgCheckSetTimeDate" src="" alt="#" class="hidden"/>
+                            <span id="lblSetTimeDate" class="otherSteps">Time & Date</span><br /><br />
+                        </p>
+                    </div>
+
+                    <span class="OtherChapter" id="Chapter2">• Pet Setup</span><br />
+                    <div>
+                        <p>
+                            <img id="imgCheckNamePet" src="" alt="#" class="hidden"/>
+                            <span id="lblNamePet" class="otherSteps"> Name Pet</span><br />
+                        </p>
+                        <p>
+                            <img id="imgCheckLearnPet" src="" alt="#" class="hidden"/>
+                            <span id="lblLearnPet" class="otherSteps"> Add Pet's ID</span><br />
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="right-side">
+            <div id="wifi-usb-icons">
+                <img id="wifiIndicator" src="img/passport_UIUX_WIRELESS_OFF.png" alt="#"/>
+                <img id="usbIndicator" src="img/passport_UIUX_USB_OFF.png" alt="#"/>
+            </div>
+            <div id="LCD">
+                <span id="lcdText">PASSport&trade;</span>
+            </div>
+            <div id="door-nav" class="door-nav-width-bounds hidden">
+                <a class="home-nav" href="#btnPetStatus" id="btnPetStatus" onclick="btnPetStatus_onclick()">
+                </a>
+
+                <a class="door-nav" href="#btnDoorSettings" id="btnDoorSettings" onclick="btnDoorSettings_onclick()">
+                </a>
+
+                <a class="settings-nav" href="#btnPetSettings" id="btnPetSettings" onclick="btnPetSettings_onclick()">
+                </a>
+            </div>
+            <div id="connecting" class="right-content-wrap">
+                <div class="door-width-bounds center-text">
+                    <br/><br/>
+                    <img alt="Connecting" src="img/arrows_dog.gif" />
+                    <p>Connecting to door...</p>
+                </div>
+            </div>
+
+            <!-- Language Setup -->
+            <div id="setLanguage" class="right-content-wrap">
+                <div class="door-width-bounds center-text">
+                    <br /><br /><br /><br /><br />
+                    <h1>Set Language:</h1>
+                    <p>
+                        <span class="display-block">Language:</span>
+                        <select id="selLanguage" style="width: 99px;" onchange="selLanguage_onchange()">
+                            <option value="0">English</option>
+                            <option value="1">Français (French)</option>
+                            <option value="2">Nederlands (Netherlands)</option>
+                            <option value="3">Español (Spanish)</option>
+                            <option value="4">Italiano (Italian)</option>
+                            <option value="5">Deutsch (German)</option>
+                            <option value="6">Suomi (Finnish)</option>
+                            <option value="7">Svenska (Swedish)</option>
+                            <option value="8">Norsk (Norwegian)</option>
+                            <option value="9">Dansk (Danish)</option>
+                        </select>
+                        <br /><br />
+                    </p>
+                    <a href="#"  onclick="setLanguage_next()" class="button-short">Next ></a>
+                </div>
+            </div>
+
+            <!-- Name Door -->
+            <div id="nameDoor" class="right-content-wrap">
+                <div class="door-width-bounds center-text">
+                    <br /><br /><br /><br />
+                    <h2>Name Door:</h2>
+                    Enter a name for this door.<br />ex: Front Door<br />
+                    <input id="tbDoorName" type="text" maxlength="12" style="outline:none;"/>
+                    <br /><br />
+                    <a href="#"  onclick="showStep_setLanguage()" class="button-short">< Prev</a>
+                    <a href="#"  onclick="nameDoor_next()" class="button-short">Next ></a>
+                </div>
+            </div>
+
+            <!-- Time and Date -->
+            <div id="setTimeDate" class="right-content-wrap">
+                <div class="door-width-bounds center-text">
+                    <br /><br /><br /><br />
+                        <h2>Set Time/Date:</h2>
+                        <!-- time settings -->
+                        <div style="margin-right:33%;">
+                            <input type="radio" name="rbGroup_timeFormat" id="rb12Hr" onchange="rbHourFormat_onchange()"/>
+                            <label for="rb12Hr"><span></span>12 HR</label>
+                            <input type="radio" name="rbGroup_timeFormat" id="rb24Hr" onchange="rbHourFormat_onchange()"/>
+                            <label for="rb24Hr"><span></span>24 HR</label>
+                        </div>
+                        <select id="selHH" onchange="selTime_onchange()">
+                            <option>12</option>
+                        </select> :
+                        <select id="selMM" onchange="selTime_onchange()">
+                            <option>00</option>
+                        </select>
+                        <select id="selAmPm" onchange="selTime_onchange()">
+                            <option>AM</option>
+                            <option>PM</option>
+                        </select>
+
+                        <!-- date settings --><br /><br />
+                        <input name="rbGroup_dateFormat" id="rbMmmddyyyy" type="radio" onchange="rbDateFormat_onchange()"/>
+                        <label for="rbMmmddyyyy"><span></span>Mmmddyyyy</label>
+                        <input name="rbGroup_dateFormat" id="rbDdmmmyyyy" type="radio" onchange="rbDateFormat_onchange()"/>
+                        <label for="rbDdmmmyyyy"><span></span>ddMmmyyyy</label>
+                        <div id="dateSelectBoxes">
+                            <select id="selMonth" onchange="selMonthYear_onchange()">
+                                <option value="1">Jan</option>
+                                <option value="2">Feb</option>
+                                <option value="3">Mar</option>
+                                <option value="4">Apr</option>
+                                <option value="5">May</option>
+                                <option value="6">Jun</option>
+                                <option value="7">Jul</option>
+                                <option value="8">Aug</option>
+                                <option value="9">Sep</option>
+                                <option value="10">Oct</option>
+                                <option value="11">Nov</option>
+                                <option value="12">Dec</option>
+                            </select>
+                            <select id="selDay" onchange="selDay_onchange()">
+                                <option>12</option>
+                            </select>
+                            <select id="selYear" onchange="selMonthYear_onchange()">
+                                <option>2012</option>
+                            </select>
+                        </div>
+                        <br />
+                        <a href="#"  onclick="SetTimeDate_Prev();" class="button-short">< Prev</a>
+                        <a href="#"  onclick="setTimeDate_next()" class="button-short">Next ></a>
+                </div>
+            </div>
+            <!-- End Time and Date -->
+
+            <div id="namePet" class="right-content-wrap">
+                <div class="door-width-bounds center-text">
+                    <br /><br /><br /><br />
+                        <h2>Add a pet:</h2>
+                        <span>Enter a name for this pet:</span><br />
+                        <input id="tbPetName" type="text" maxlength="12" style="outline:none;"/>
+                        <br /><br /><br />
+                        <a href="#"  onclick="namePet_Prev()" class="button-short">< Prev</a>
+                        <a href="#"  onclick="namePet_next()" class="button-short">Next ></a>
+                </div>
+            </div>
+            <div id="learnPet1" class="right-content-wrap">
+                <div class="door-width-bounds center-text">
+                   <h2>Add Pet's ID:</h2>
+                    <p class="left-text">
+                        Adding a pet's Passport Key is time sensitive. You will have 30 seconds to add a pet. <br /><br />
+                        Bring your Pet / Key to door. Hold Passport Key 5-6 inches from center of main flap and parallel to flap. Wait for key to program during the 30 second countdown.<br /><br />
+                        Then click the <strong>next</strong> button.
+                        <span class="center-text">
+                        <br/><br/>
+                        <a href="#"  onclick="learnPet1_Prev()" class="button-short">< Prev</a>
+                        <a href="#"  onclick="learnPet1_next()" class="button-short">Next ></a>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div id="learnPet2"  class="right-content-wrap">
+                <div class="door-width-bounds center-text">
+                <img src = "img/clock.gif" width="150" alt="clock" />
+                <h2>Reading your pet's ID...</h2>
+                <p class="left-text">
+                    You should hear the door beep 3 times when
+                    <strong><span id="curPetName">this pet</span>'s</strong> pet ID has been added. <br /><br />
+                    <strong><span id="secsRemaining">30</span></strong> Seconds Remaining  </div>
+                </p>
+            </div>
+            <div id="allFinished"  class="right-content-wrap">
+                <div class="door-width-bounds center-text">
+                    <br /><br /><br /><br />
+                    <h2>All finished!</h2>
+                    <br />
+                    <a href="#" class="button-long" onclick="showStep_namePet()">Add another</a>
+                    <a href="#" class="button-long" onclick="finishWizard()">Done!</a>
+                </div>
+            </div>
+
+            <!--copyright-->
+            <div id="copyright">
+                <span>&copy 2013 Radio Systems Corporation. All Rights Reserved.</span>
+            </div>
+        </div>
+        <!-- Battery Indicator -->
+        <div id="battery-indicator">
+            <img style="visibility:hidden;" id="batteryIndicator" src="/apps/PASSport/img/passport_UIUX_battery_charge_indicator01.png" title="Battery Power" alt="BatteryIndicator" />
+            <br /><br /><br /><br/>
+            <img style="visibility:hidden;" id="wallPowerIndicator" src="/apps/PASSport/img/Power_Supply_Icon_small.png" title="Wall Power" width="18" height="25" alt="WallPowerIndicator" />
+        </div>
+
+    </div>
+</body>
+</html>

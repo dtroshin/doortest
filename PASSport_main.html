@@ -1,0 +1,807 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <script src="../_common/jquery.js"></script>
+    <script src="../_common/jqueryui.js"></script>
+    <link rel="stylesheet" href="../_common/jqueryui.css" />
+    <!--<link rel="stylesheet" href="jquery-ui-1.10.2.custom/css/custom-theme/jquery-ui-1.10.2.custom.css" />-->
+    <script type="text/javascript" src="../_common/RSC_Connectivity_H_client.js"></script>
+    <script type="text/javascript" src="RFID_App_H_client.js"></script>
+    <script type="text/javascript" src="Config_H_client.js"></script>
+    <script type="text/javascript" src="PASSport_objects.js"></script>
+    <script type="text/javascript" src="PASSport_msg_generator.js"></script>
+    <script type="text/javascript" src="PASSport_msg_parser.js"></script>
+    <script type="text/javascript" src="PASSport_client.js"></script>
+    <script type="text/javascript" src="rscconnect_ws.js"></script>
+</head>
+<body>
+<div id="sidePnlDebug" style="display:none;">
+    <!-- style="position:absolute; right:0px; top:0px;" -->
+    <button type="button" onclick="btnTone_Clicked()">Tone</button>
+    <button type="button" onclick="btnPower_Clicked()">Power</button>
+    Last message received:
+    <div id="textDisplay">[...] </div>
+</div>
+    <div id="wrapper">
+        <div id="footer">
+            <img id="petsafe-logo" src="img/PetSafe_process_White_Tag_smaller.png" alt="#" />
+            <!-- alert box -->
+            <div class="MessageBox" id="MessageBoxBig" >
+                <div style="position:relative; float:right;">
+                    <button onclick="btnCloseAlert_onclick()" class="close-button"></button>
+                    <div style="width:16px; height:10px; float:right;"></div>
+                </div><!-- close button -->
+                <p><span class="alertText">
+                    --------------------------
+                    </span>
+                </p>
+            </div>
+         </div>
+        <div id="left-side">
+            <img src="img/passport_logo_wo_BG1.png" alt="#"/>
+            <div id="left-nav">
+                <button class="clearbutton" onclick="btnSidePnlNav_onclick('sidePnlHome');">
+                    <img title="Home" src="img/passport_UIUX_home.png" alt="home" />
+                </button>
+                <span class="nav-divider">|</span>
+                <a href="javascript:void(0)" onclick="btnSidePnlNav_onclick('sidePnlUpdates');" style="margin-left:10px; margin-right:10px;">Updates</a>
+                <span class="nav-divider">|</span>
+                <a href="javascript:void(0)" onclick="btnSidePnlNav_onclick('sidePnlSupport');" style="margin-left:10px; margin-right:10px;">Support</a>
+            </div>
+
+            <div id="sidePnlUpdates" class="left-content-wrap">
+                <span class="left-main-title">Updates</span>
+                <div class="left-content">
+                    <p class="definition-align">
+                        <span>Computer Application Version: </span><span id="appVersion">---</span><br/>
+                        <span>Latest Version: </span><span id="latestSwVersion">---</span><br/>
+                        <a href="#" class="button-long" onclick="pnlSupport_btnDownloadSwUpdate_onclick()">Download</a>
+                    </p>
+
+                    <p class="definition-align">
+                        <span>Door Firmware Version:</span> <span id="fwVersion">---</span><br />
+                        <span>Latest Firmware Version:</span> <span id="latestFwVersion">---</span><br/>
+                        <a href="#" class="button-short" id="btnInstallFwUpdate" onclick="pnlSupport_btnInstallFirmware_onclick()">Install</a>
+                    </p>
+
+                    <div id="fwUpdateProgressDiv" style = "width:300px; display:none;">
+                        <meter id="mtrUpdateProgress" style="margin-left: 50px; width:300px; height:25px;" value="50" min="0" max="100"></meter><br />
+                        <span id="lblUpdateProgress" style="color:black; margin-left:60px; position:relative; top:-20px;">0%</span> <br />
+                        <div style="margin-left: 50px; width:300px;">
+                            <span style="color:red;">DO NOT disconnect the cable or power down the computer/door while update is in progress.</span>
+                        </div>
+                    </div>
+
+                    <div class="align-bottom">
+                        <span>Door Serial Number:&nbsp;</span> <span id="DoorSerialNumber">--</span>
+                    </div>
+                </div>
+            </div>
+            <div id="sidePnlSupport" class="left-content-wrap">
+                <span class="left-main-title">Support</span>
+                <div class="left-content">
+                    <a class="button-long" href="#" onclick="pnlSupport_btnSetupWizard_onclick()">Setup Wizard</a>
+                    &nbsp;&nbsp;
+                    <span>Run easy setup wizard to configure your door.</span>
+                    <br /><br />
+
+                    <a class="button-long" href="#" onclick="pnlSupport_btnFactReset_onclick()">Factory Reset</a>
+                    &nbsp;&nbsp;
+                    <span>Reset your door to factory defaults.</span>
+                    <br /><br />
+
+                    <a class="button-long" href="#" onclick="pnlSupport_btnReboot_onclick()">Reboot Door</a>
+                    &nbsp;&nbsp;
+                    <span>Reboot your door.</span>
+
+                    <div class="align-bottom">
+                        <p>
+                            <strong>Call Customer Care for live help:</strong><br />
+                            1-800-732-2677<br />
+                            <a href="http://www.petsafe.net/support/doors">www.petsafe.net/support/doors</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="sidePnlPetStatus_help" class="left-content-wrap">
+                <span class="left-main-title">Pet Status</span>
+                <div class="left-content">
+                    <p class="definition-align">This page shows whether your pet is inside or outside.
+                    You can also view each pet's history of going in and out.</p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_petin.png" alt="#"/>
+                    <p class="definition-align ln-height35">Indicates pet is inside.</p>
+                    <div class="clear"></div>
+
+                    <img class="icons" src="img/passport_UIUX_petout.png" alt="#"/>
+                    <p class="definition-align ln-height35">Indicates pet is outside.<p>
+                    <div class="clear"></div>
+
+                    <img class="icons" src="img/passport_UIUX_history.png" alt="#"/>
+                    <p class="definition-align ln-height35">View pet's history.</p>
+                    <div class="clear"></div>
+
+                    <img class="icons" src="img/passport_UIUX_edit.png" alt="#"/>
+                    <p class="definition-align ln-height35">Edit pet's settings.</p>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div id="sidePnlHome" class="left-content-wrap">
+                <span class="left-main-title">Pet Status / Home</span>
+                <div class="left-content">
+                    <img class="icons" src="img/passport_UIUX_petstatus_OVER.png" alt="#" />
+                    <p class="definition-align">
+                        Homepage and shows at-a-glance the current location of each pet. You can also view each pet&apos;s history of going in and out. Use the quick link to go to the Pet Settings page to edit each pet&apos;s settings.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_doorsettings_WHITE.png" alt="#" />
+                    <p class="definition-align">
+                        Customize the door operation and settings. Select the door operational mode and set the time, date and language. Also set Low Battery Mode.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_petsettings_WHITE.png" alt="#" />
+                    <p class="definition-align">
+                        Easily set the same access and settings for all pets or customize access and settings by individual pet. Set the Access Mode, Re-latch Time, In-Tone and Out-Tone.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_WIRELESS_ON_No_BG.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                         The Passport&trade; Wireless Card is connected to door.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_USB_ON_No_BG.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Indicates a USB cable is connected to door.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/Power_Supply_Icon_small.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Indicates the power adapter is connected to door.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/Battery_Indicator_for_defin.png" alt="#" />
+                    <p class="definition-align">
+                        Indicates the rechargeable battery is in use with its charge status.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/passport_UIUX_tutorial_IDLE.png" alt="#" />
+                    <p class="definition-align">
+                        View videos to help you navigate and use the Passport&trade; Computer Application and the Passport&trade;.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/passport_UIUX_help_OVER_andONCLICK.png" alt="#" />
+                    <p class="definition-align">
+                        Get help using the Passport&trade; and the Computer Application.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/passport_UIUX_history.png" alt="#" />
+                    <p class="definition-align">
+                        View last times each pet used the pet door and if the pet came in or went out.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/passport_UIUX_edit.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Quick link to Pet Settings page to edit the pet&apos;s settings.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_petin.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Indicates pet is inside.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_petout.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Indicates pet is outside.
+                    </p>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div id="sidePnlDoorSettings_help" class="left-content-wrap">
+                <span class="left-main-title">Door Settings</span>
+                <div class="left-content">
+
+                    <img class="icons" src="img/passport_UIUX_doorsettings_OVER.png" alt="#" />
+                    <p class="definition-align">
+                        Customize the door operation and settings. Select the door operational mode and set the time, date and language. Also set Low Battery Mode.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_tutorial_IDLE.png" alt="#" />
+                    <p class="definition-align">
+                        View videos to help you navigate and use the Passport&trade; Computer Application and the Passport&trade;.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_help_OVER_andONCLICK.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Get help using the Passport&trade; and the Computer Application.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="save-cancel-icons" src="img/passport_UIUX_cancel_BUTTON_IDLE.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Cancel changes and keep current Door Settings.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="save-cancel-icons" src="img/passport_UIUX_done_BUTTON_IDLE.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Save changes to Door Settings.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/passport_UIUX_edit.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Edit or rename door.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/passport_UIUX_delete.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Delete or remove door.
+                    </p>
+                    <div class="clear"></div>
+
+                    <img class="edit-icons" src="img/passport_UIUX_optional_door_mode.png" alt="#" />
+                    <p class="definition-align">
+                        Change Door Operational Mode with 3 mode options: Smart Mode, Locked or Open.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/Clock.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Set time and time format used by the Passport™..
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/Calendar.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        Set date format used by the Passport™.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/passport_UIUX_locked_ICON.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        When in Low Battery Mode, select to lock or unlock door.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/passport_UIUX_beepon_ICON.png" alt="#" />
+                    <p class="definition-align Ln-height35">
+                        When in Low Battery Mode, select to turn on or turn off alert.
+                    </p>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div id="sidePnlPetSettings_help" class="left-content-wrap">
+                <span class="left-main-title">Pet Settings</span>
+                <div class="left-content">
+                    <img class="icons" src="img/passport_UIUX_petsettings_OVER.png" alt="#" />
+                    <p class="definition-align">
+                        Easily set the same access and settings for all pets or customize access and settings by individual pet. Set the      Access Mode, Re-latch Time, In-Tone and Out-Tone.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_tutorial_IDLE.png" alt="#" />
+                    <p class="definition-align">
+                        View videos to help you navigate and use the Passport&trade; Computer Application and the Passport&trade;.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_help_OVER_andONCLICK.png" alt="#" />
+                    <p class="definition-align">
+                        Get help using the Passport&trade; and the Computer Application.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="save-cancel-icons" src="img/passport_UIUX_cancel_BUTTON_IDLE.png" alt="#" />
+                    <p class="definition-align ln-height35">
+                        Cancel changes and keep current Pet Settings.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="save-cancel-icons" src="img/passport_UIUX_done_BUTTON_IDLE.png" alt="#" />
+                    <p class="definition-align ln-height35">
+                        Save changes to Pet Settings.
+                    </p>
+                    <div class="clear"></div>
+                    <span class="sizetext2em">&nbsp;+</span>
+                    <p class="definition-align ln-height35">
+                        Add a pet to the Passport™. Up to 20 pets can be added.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/passport_UIUX_edit.png" alt="#" />
+                    <p class="definition-align ln-height35">
+                        Edit or rename pet.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="edit-icons" src="img/passport_UIUX_delete.png" alt="#" />
+                    <p class="definition-align ln-height35">
+                        Delete or remove pet.
+                    </p>
+                    <div class="clear"></div>
+
+                    <img class="icons" src="img/Pet_Access_Mode.png" alt="#" />
+                    <p class="definition-align ln-height35">
+                        Change Pet Access Mode with 4 mode options: In/Out,
+                        In-Only, Out-Only and Timer.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_relatchtime_ICON.png" alt="#" />
+                    <p class="definition-align ln-height35">
+                        Set how many seconds until door re-locks after pet goes through.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_intone_ICON.png" alt="#" />
+                    <p class="definition-align ln-height35">
+                        Select a tone to play when pet comes in. Can also turn tone off.
+                    </p>
+                    <div class="clear"></div>
+                    <img class="icons" src="img/passport_UIUX_outtone_ICON.png" alt="#" />
+                    <p class="definition-align ln-height35">
+                        Select a tone to play when pet goes out. Can also turn tone off.
+                    </p>
+                    <div class="clear"></div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="door-side">
+            <div id="wifi-usb-icons">
+                <img id="wifiIndicator" src="img/passport_UIUX_WIRELESS_OFF.png" alt="#"/>
+                <img id="usbIndicator" src="img/passport_UIUX_USB_OFF.png" alt="#"/>
+            </div>
+            <div id="LCD">
+                <span>PASSport&trade;</span>
+            </div>
+            <div id="door-nav" class="door-nav-width-bounds ">
+                <a class="home-nav" href="#btnPetStatus" id="btnPetStatus" onclick="btnPetStatus_onclick()">
+                </a>
+
+                <a class="door-nav" href="#btnDoorSettings" id="btnDoorSettings" onclick="btnDoorSettings_onclick()">
+                </a>
+
+                <a class="settings-nav" href="#btnPetSettings" id="btnPetSettings" onclick="btnPetSettings_onclick()">
+                </a>
+            </div>
+            <div id="Connecting" class="right-content-wrap">
+                <div class="door-width-bounds center-text">
+                    <br/><br/><br/>
+                    <img alt="Connecting" src="img/arrows_dog.gif" />
+                    <p>Connecting to door...</p>
+                </div>
+            </div>
+
+            <!-- Pet Status -->
+            <div id="PetStatus" class="right-content-wrap">
+                <div class="door-width-bounds">
+                    <span class="right-main-title">Pet Status</span>
+
+                    <div class="right-header">
+                        <button onclick="javascript:petStatus_showVideo();">
+                            <img title="View Tutorial Video" src="img/passport_UIUX_tutorial_IDLE.png" alt="View Tutorial Video" />
+                        </button>
+                        <button onclick="javascript:petStatus_showHelp();">
+                            <img title="View Help" src="img/passport_UIUX_help_IDLE.png" alt="View Help"  />
+                        </button>
+                    </div>
+                    <br/>
+                    <div id="PetStatus_List"></div>
+                </div>
+            </div>
+
+            <div id="DoorSettings" class="right-content-wrap">
+                <div class="door-width-bounds">
+                    <span class="right-main-title">Door Settings</span>
+                    <div class="right-header">
+                        <button onclick="javascript:doorSettings_showVideo();">
+                            <img title="View Tutorial Video" src="img/passport_UIUX_tutorial_IDLE.png" alt="View Tutorial Video" />
+                        </button>
+                        <button onclick="javascript:doorSettings_showHelp();">
+                            <img title="View Help" src="img/passport_UIUX_help_IDLE.png" alt="View Help"  />
+                        </button>
+                        <div class='save-cancel-container'>
+                            <button onclick="btnRevertDoorSettings_onclick()" style="width:56px; height:28px; ">
+                                <img title="Revert Door Settings" id="btnRevertDoorSettings" src="img/passport_UIUX_cancel_BUTTON_IDLE_gray.png" width="56" height="28" alt="Revert Door Settings"/>
+                            </button>
+                            <button onclick="btnSaveDoorSettings_onclick()" style="width:56px; height:28px;">
+                                <img title="Save Door Settings" id="btnSaveDoorSettings" src="img/passport_UIUX_done_BUTTON_IDLE_gray.png" width="56" height="28" alt="Save Door Settings"/>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--door name and edit/delete buttons -->
+                    <select disabled style="width: 110px;">
+                        <option id="cmbSelectDoor" value="New Door">New Door</option>
+                    </select>
+                    <button onclick="btnDsEditName_onclick()" style="border:0px; background-color:transparent; ">
+                        <img title="" alt="" src="img/passport_UIUX_editSMALL.png" />
+                    </button>
+
+                    <button onclick="btnDsEditName_onclick()" style="border:0px; background-color:transparent; ">
+                        <img title="" alt="" src="img/passport_UIUX_delete_small.png" />
+                    </button>
+
+                    <!-- Mode setting -->
+                    <br/><br/>
+                    <img src="img/passport_UIUX_optional_door_mode.png" alt="" width="25px" style=" float:left;"/><span style="line-height:26px;">&nbsp;Mode:</span><br clear="left" />
+                    <select id="selMode" onchange="selDoorMode_onchange()" style="width: 110px;">
+                        <option value="Smart">Smart</option>
+                        <option value="Open">Open</option>
+                        <option value="Locked">Locked</option>
+                    </select>
+
+
+                    <!-- time settings -->
+                    <br/><br/>
+                    <div>
+                        &nbsp;&nbsp;
+                        <img title="" alt="" src="img/Clock.png" width="18px" />
+                        &nbsp;&nbsp;
+                        <input type="radio" name="rbGroup_timeFormat" id="rb12Hr" onchange="rbHourFormat_onchange()"/>
+                        <label for="rb12Hr"><span></span>12 HR</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="rbGroup_timeFormat" id="rb24Hr" onchange="rbHourFormat_onchange()"/>
+                        <label for="rb24Hr"><span></span>24 HR</label>
+                    </div>
+                    <div>
+                        <select id="selHH" onchange="selTime_onchange()" class="DoorDateSettings">
+                            <option>12</option>
+                        </select>
+                        &nbsp;&nbsp;:&nbsp;
+                        <select id="selMM" onchange="selTime_onchange()" class="DoorDateSettings">
+                            <option>00</option>
+                        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <select id="selAmPm" onchange="selTime_onchange()" class="DoorDateSettings">
+                            <option>AM</option>
+                            <option>PM</option>
+                        </select>
+                    </div>
+
+                    <!-- date settings -->
+                    <br/>
+                    &nbsp;&nbsp;
+                    <img title="" alt="" src="img/Calendar.png" width="18px"/>
+                    &nbsp;&nbsp;
+                    <input name="rbGroup_dateFormat" id="rbMmmddyyyy" type="radio" onchange="rbDateFormat_onchange()"/>
+                    <label for="rbMmmddyyyy"><span></span>Mmmddyyyy</label>
+
+                    <input name="rbGroup_dateFormat" id="rbDdmmmyyyy" type="radio" onchange="rbDateFormat_onchange()"/>
+                    <label for="rbDdmmmyyyy"><span></span>ddMmmyyyy</label>
+
+                    <br/>
+                    <div id="dateSelectBoxes">
+                        <select id="selMonth" onchange="selMonthYear_onchange()" class="LeDoorDateSettings">
+                            <option value="1">Jan</option>
+                            <option value="2">Feb</option>
+                            <option value="3">Mar</option>
+                            <option value="4">Apr</option>
+                            <option value="5">May</option>
+                            <option value="6">Jun</option>
+                            <option value="7">Jul</option>
+                            <option value="8">Aug</option>
+                            <option value="9">Sep</option>
+                            <option value="10">Oct</option>
+                            <option value="11">Nov</option>
+                            <option value="12">Dec</option>
+                        </select>
+                        <span id="slash1">&nbsp;&nbsp;/&nbsp;&nbsp;</span>
+                        <select id="selDay" onchange="selDay_onchange()" class="LeDoorDateSettings"> </select>
+                        <span id="slash2">&nbsp;/&nbsp;</span>
+                        <select id="selYear" onchange="selMonthYear_onchange()" class="LeDoorDateSettings"> </select>
+                    </div>
+
+                    <!-- Language setting -->
+                    <br/>
+                    <div >Language:</div>
+                    <select id="selLanguage" style="width: 200px;" onchange="selLanguage_onchange()">
+                        <option value="0">English</option>
+                        <option value="1">Français (French)</option>
+                        <option value="2">Nederlands (Netherlands)</option>
+                        <option value="3">Español (Spanish)</option>
+                        <option value="4">Italiano (Italian)</option>
+                        <option value="5">Deutsch (German)</option>
+                        <option value="6">Suomi (Finnish)</option>
+                        <option value="7">Svenska (Swedish)</option>
+                        <option value="8">Norsk (Norwegian)</option>
+                        <option value="9">Dansk (Danish)</option>
+                    </select>
+
+                    <!-- low battery settings -->
+                    <fieldset style="width:200px; border-color:White;">
+                        <legend>On Low Battery:</legend>
+                        <img title="" alt="" src="img/passport_UIUX_locked_ICON.png" class="edit-icons"/>
+                        &nbsp;&nbsp;&nbsp;
+                        <input name="rbGroup_LowBattLock" id="rbLocked" type="radio" onchange="rbLowBattLock_onchange()"/>
+                        <label for="rbLocked"><span></span>Locked</label>
+                        &nbsp;&nbsp;
+                        <input name="rbGroup_LowBattLock" id="rbUnlocked" type="radio" onchange="rbLowBattLock_onchange()"/>
+                        <label for="rbUnlocked"><span></span>Unlocked</label>
+                        <hr color="white" />
+                        <img title="" alt="" src="img/passport_UIUX_beepon_ICON.png" class="edit-icons" />
+                        &nbsp;&nbsp;&nbsp;
+                        <input name="rbGroup_LowBattBeep" id="rbBeep" type="radio" value="Beep" onchange="rbLowBattBeep_onchange()"/>
+                        <label for="rbBeep"><span></span>Beep</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input name="rbGroup_LowBattBeep" id="rbNoBeep" type="radio" value="Silent" onchange="rbLowBattBeep_onchange()"/>
+                        <label for="rbNoBeep"><span></span>None</label>
+                    </fieldset>
+                </div>
+            </div>
+
+
+
+            <div id="PetSettings" class="right-content-wrap">
+                <div class="door-width-bounds">
+                    <span class="right-main-title">Pet Settings</span>
+                    <div class="right-header">
+                        <button onclick="javascript:doorSettings_showVideo();">
+                            <img title="View Tutorial Video" src="img/passport_UIUX_tutorial_IDLE.png" alt="View Tutorial Video" />
+                        </button>
+                        <button onclick="javascript:doorSettings_showHelp();">
+                            <img title="View Help" src="img/passport_UIUX_help_IDLE.png" alt="View Help"  />
+                        </button>
+                        <div class='save-cancel-container'>
+                            <button onclick="btnRevertPetSettings_onclick()" style="width:56px; height:28px; border:0px; background-color:#CCCBCB; ">
+                                <img title="Revert Pet Settings" id="btnRevertPetSettings" src="img/passport_UIUX_cancel_BUTTON_IDLE_gray.png" width="56" height="28" alt="Revert Door Settings" />
+                            </button>
+                            <button onclick="btnSavePetSettings_onclick()" style="width:56px; height:28px; border:0px; background-color:#CCCBCB; ">
+                                <img title="Save Pet Settings" id="btnSavePetSettings" src="img/passport_UIUX_done_BUTTON_IDLE_gray.png" width="56" height="28" alt="Save Door Settings"/>
+                            </button>
+                        </div>
+
+                        <!-- pet name and edit/delete buttons --><br />
+                            <select id="selPets" onchange="selPet_onchange(this.selectedIndex)" style="width: 130px;">
+                            <option>-Master-</option>
+                            </select>
+                            <button onclick="btnPsAddPet_onclick()">
+                                <img title="Add Pet" src="img/passport_UIUX_add.png" alt="Add Pet" />
+                            </button>
+                            <button onclick="btnPsEditName_onclick()">
+                                <img title="Rename Pet" src="img/passport_UIUX_editSMALL.png" alt="Rename Pet" />
+                            </button>
+                            <button onclick="btnPsDeletePet_onclick()">
+                                <img title="Delete Pet"  src="img/passport_UIUX_delete_small.png" alt="Delete Pet" />
+                            </button>
+                            <br /><br />
+                    </div>
+                    <!-- Access Mode -->
+                        <img title="" alt="" src="img/Pet_Access_Mode.png" width="30" height="30" style="border:0px; float:left;" />
+                        <div class="PetSettingsContentSpacing">
+                            <select id="selPetAccessMode" onchange="selPetAccessMode_onchange()" style="width:90px;">
+                                <option>In/Out</option>
+                                <option>In Only</option>
+                                <option>Out Only</option>
+                                <option>Timer</option>
+                            </select>
+                            Access Mode
+                        </div>
+                    <br clear="left" />
+
+                    <!-- Relatch Time -->
+                        <img title="" alt="" src="img/passport_UIUX_relatchtime_ICON.png" width="30" height="30" style="border:0px; float:left;"/>
+                        <div class="PetSettingsContentSpacing">
+                            <select id="selPetRelatchTime" onchange="selPetRelatch_onchange()"  style="width:90px;">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>15</option>
+                                <option>20</option>
+                                <option>25</option>
+                                <option>30</option>
+                                <option>40</option>
+                                <option>50</option>
+                                <option>60</option>
+                            </select>
+                            Relatch Time
+                        </div>
+                    <br clear="left" />
+
+                    <!-- In Tone -->
+                        <img title="" alt="" src="img/passport_UIUX_intone_Inner_ICON.png" width="30" height="30" style="border:0px; float:left; "/>
+                        <div class="PetSettingsContentSpacing">
+                            <select id="selPetInTone" onchange="selPetInTone_onchange()"  style="width:90px;">
+                                <option>0 (Off)</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select>
+                            In-Tone
+                        </div>
+                    <br clear="left" />
+
+                    <!-- Out Tone -->
+                        <img title="" alt="" src="img/passport_UIUX_outtone_Inner_ICON.png" width="30" height="30" style="border:0px; float:left; "/>
+                        <div class="PetSettingsContentSpacing">
+                            <select id="selPetOutTone" onchange="selPetOutTone_onchange()" style="width:90px;">
+                                <option>0 (Off)</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select>
+                            Out-Tone
+                        </div>
+                    <!-- timers display -->
+                    <div id="divPetTimerDisplay" style=" width:250px; height:85px; border:1px none green;">
+                        <br clear="all" />
+                        <div id="divPetTimerDisplayText" style="margin-left:40px;">
+                            <div>12:00PM - Smart</div>
+                            <div>12:00PM - In-Only</div>
+                            <div>12:00PM - Out-Only</div>
+                            <div>12:00PM - Locked</div>
+                        </div>
+                        <div style="margin-left:50px;"><button onclick="btnPsEditTimers_onclick()">Edit Timers</button></div>
+                    </div>
+                </div>
+
+                <!-- add pet pages -->
+                <div id="add-pets">
+                    <div id="namePet">
+                        <br /><br /><br /><br />
+                        <center>
+                            <h2>Add a pet:</h2>
+                            Enter a name for this pet:<br />
+                            <input id="tbPetName" type="text" maxlength="12" style="outline:none;"/>
+                            <br /><br /><br /><button onclick="showPetSettings()" class="clearbutton">
+                            <img src="img/Cancel.png" alt="Cancel" width="80" />
+                        </button>
+                            <button onclick="namePet_next()" style="border:0px; background-color:transparent;">
+                                <img src="img/Next.png" alt="next" width="80" />
+                            </button>
+                        </center>
+                    </div>
+                    <div id="learnPet1">
+                        <center>
+                            <h2>Add Pet's ID</h2>
+                        </center>
+                        Adding a pet's Passport Key is time sensitive. You will have 30 seconds to add a pet. <br /><br />
+                        Bring your Pet / Key to door. Hold Passport Key 5-6 inches from center of main flap and parallel to flap. Wait for key to program during the 30 second countdown.<br /><br/>
+                        Then click the <strong>next</strong> button.
+                        <br /><br /><br />
+                        <center>
+                            <button onclick="showStep_namePet()" style="border:0px; background-color:transparent;"><img src="img/Prev.png" alt="next" width="80" /></button>
+                            <button onclick="learnPet1_next()" style="border:0px; background-color:transparent;"><img src="img/Next.png" alt="next" width="80" /></button>
+                        </center>
+                    </div>
+                    <div id="learnPet2">
+                        <center>
+                            <img src = "img/clock.gif" width="150" alt="clock" />
+                            <h2>Reading your pet's ID...</h2>
+                        </center>
+                        You should hear the door beep 3 times when <strong><span id="curPetName">this pet</span>'s</strong> pet ID has been added. <br /><br />
+                        <strong><span id="secsRemaining">30</span></strong> Seconds Remaining
+                    </div>
+                </div>
+
+                <!-- pop up window for editing pet timers-->
+                <div id="PopUpTimerEditor">
+                    <center>
+                        <h2>Timer Mode Settings</h2>
+                    </center>
+                    <!-- Instructions -->
+                    <div id="topleft_text">
+                        <p>Instructions for Setting Timer Mode</p>
+                        <p>Click pencil to the right to set or edit timer mode to program your pet's access. A minimum of 2 times are required but up to 4 pet access times are available.</p>
+                    </div>
+
+                    <!-- Top Left - edit-->
+                    <div id="topleft_editor">
+                        <div style="margin-left:20px; border-style:none; border-color:Red;">
+                            At this time:<br />
+                            <select id="tmrHH">
+                                <option>12</option>
+                            </select>
+                            :
+                            <select id="tmrMM">
+                                <option>30</option>
+                            </select>
+                            <select id="tmrAmPm" style="float:right; margin-right:40%;">
+                                <option>AM</option>
+                                <option>PM</option>
+                            </select>
+                            <br clear="all" /><br />
+
+                            Enter Access Mode:<br />
+                            <select id="tmrAccessMode">
+                                <option>In/Out</option>
+                                <option>In-Only</option>
+                                <option>Out-Only</option>
+                            </select>
+                            <button onclick="btnSaveTimer_onclick()" style="">Save</button>
+                        </div>
+                    </div>
+
+                    <!-- Top Right -->
+                    <div id="topright">
+                        <div id="tmrItem0" class="timer-item"> </div>
+                        <div id="tmrItem1" class="timer-item"> </div>
+                        <div id="tmrItem2" class="timer-item"> </div>
+                        <div id="tmrItem3" class="timer-item"> </div>
+                    </div>
+
+                    <!-- Canvas -->
+                    <canvas id="myCanvas"></canvas>
+                    <div style="border-style:none; border-color:Red; width:100px; float:left;"></div>
+                    <div style="border-style:none; border-color:Red; width:450px; line-height:20px; float:right; background-color:#E6E8FA; margin-right:20px;">
+                        <div class="timer-color-wrapper">
+                            <div id="Blue-Color-Block"></div>
+                            &nbsp;&nbsp;<span>In/Out</span>
+                        </div>
+
+                        <div class="timer-color-wrapper">
+                            <div id="Red-Color-Block"></div>
+                            &nbsp;&nbsp;<span>In Only</span>
+                        </div>
+
+                        <div class="timer-color-wrapper">
+                            <div id="Lime-Color-Block"></div>
+                            &nbsp;&nbsp;<span>Out Only</span>
+                        </div>
+                    </div>
+                    <div style="clear:both;"></div>
+
+                    <!-- Cancel/OK buttons -->
+                    <div id="timer-cancel-ok-wrapper">
+                        <br/>
+                        <button id="btnTmrCancel" value="Cancel" onclick="btnEditTimerCancel_onclick()" style="width:100px">Cancel</button>
+                        <button id="btnTmrOk" value="OK" onclick="btnEditTimerOk_onclick()" style="width:100px">OK</button>
+                    </div>
+                </div>
+
+                <!-- Battery Indicator -->
+                <div id="battery-indicator">
+                    <img style="visibility:hidden;" id="batteryIndicator" src="img/passport_UIUX_battery_charge_indicator01.png" title="Battery Power" alt="BatteryIndicator" />
+                    <br /><br /><br />
+                    <img style="visibility:hidden;" id="wallPowerIndicator" src="img/Power_Supply_Icon_small.png" title="Wall Power" width="18" height="25" alt="WallPowerIndicator" />
+                </div>
+
+                <!-- pop up window for renaming door/pets -->
+                <div id='PopUpRename' class="base">
+                    <div style='width: 50%; margin: 0px auto; border: 0px;'> <br /><br />
+                        <span id='PopUpText'>Name Pet:</span>
+                        <br />
+                        <input id="tbNameEntry" type="text" />
+                        <input id="btnAcceptName" onclick="btnRenameOk_onclick()" type="button" value="OK" style="float:right;"/>
+                    </div>
+                </div>
+            </div>
+
+            <!--copyright-->
+            <div id="copyright">
+                <span>&copy 2013 Radio Systems Corporation. All Rights Reserved.</span>
+            </div>
+        </div>
+
+
+        <!-- pop up window for viewing pet history -->
+        <div id='popUpHistory'>
+            <h3 style="color:#606060;">History for <SPAN id='petHist_name'></SPAN>:</h3>
+            <span id="petHist_text" style="color:#606060;"></span>
+            <br />
+            <input id="btnCloseHistory" onclick="document.getElementById('popUpHistory').style.display='none';" type="button" value="Close" style="position:absolute; right:20px; bottom:30px;"/>
+        </div>
+
+        <!-- hidden divs for jquery popups -->
+        <div id="dialog-alert" title="Alert:">
+            <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><span id="alertText">alert text!</span></p>
+        </div>
+        <div id="dialog-saveChanges" title="Save changes?">
+            <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><span id="promptSaveText">Prompt save changes</span></p>
+        </div>
+        <div id="dialog-yesno" title="Confirm">
+            <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><span id="promptYesNo">---</span></p>
+        </div>
+    </div>
+</body>
+</html>
