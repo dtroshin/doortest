@@ -17,7 +17,6 @@
     <script type="text/javascript" src="rscconnect_ws.js"></script>
 </head>
 <body>
-test
 <div id="sidePnlDebug" style="display:none;">
     <!-- style="position:absolute; right:0px; top:0px;" -->
     <button type="button" onclick="btnTone_Clicked()">Tone</button>
@@ -691,13 +690,13 @@ test
                         <h2>Timer Mode Settings</h2>
                     </center>
                     <!-- Instructions -->
-                    <div id="topleft_text">
+                    <div id="topleft_text" class="TimerBase">
                         <p>Instructions for Setting Timer Mode</p>
                         <p>Click pencil to the right to set or edit timer mode to program your pet's access. A minimum of 2 times are required but up to 4 pet access times are available.</p>
                     </div>
 
                     <!-- Top Left - edit-->
-                    <div id="topleft_editor">
+                    <div id="topleft_editor" class="TimerBase">
                         <div style="margin-left:20px; border-style:none; border-color:Red;">
                             At this time:<br />
                             <select id="tmrHH">
@@ -724,7 +723,7 @@ test
                     </div>
 
                     <!-- Top Right -->
-                    <div id="topright">
+                    <div id="topright" class="TimerBase">
                         <div id="tmrItem0" class="timer-item"> </div>
                         <div id="tmrItem1" class="timer-item"> </div>
                         <div id="tmrItem2" class="timer-item"> </div>
@@ -768,7 +767,7 @@ test
                 </div>
 
                 <!-- pop up window for renaming door/pets -->
-                <div id='PopUpRename' class="base">
+                <div id='PopUpRename' class="PopUpBase">
                     <div style='width: 50%; margin: 0px auto; border: 0px;'> <br /><br />
                         <span id='PopUpText'>Name Pet:</span>
                         <br />
@@ -786,7 +785,7 @@ test
 
 
         <!-- pop up window for viewing pet history -->
-        <div id='popUpHistory'>
+        <div id='popUpHistory' class="PopUpBase">
             <h3 style="color:#606060;">History for <SPAN id='petHist_name'></SPAN>:</h3>
             <span id="petHist_text" style="color:#606060;"></span>
             <br />
