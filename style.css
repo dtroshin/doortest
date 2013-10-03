@@ -168,9 +168,7 @@ body{
     font-family:Verdana;
     font-size:8.25pt;
 }
-.centertxt{
-    text-align: center;
-}
+
 a:link {color:#FFFFFF;}      /* unvisited link */
 a:visited {color:#FFFFFF;}  /* visited link */
 a:hover {color:#00FF00;}  /* mouse over link */
@@ -210,6 +208,24 @@ a:active {color:#FFFFFF;}  /* selected link */
     line-height:30px;
     font-weight:bold;
 }
+#left nav a{
+    margin: 0 10px;
+}
+#fwUpdateProgressDiv{
+    width:300px;
+    display:none;
+}
+#mtrUpdateProgress{
+    margin-left: 50px;
+    width:300px;
+    height:25px;
+}
+#lblUpdateProgress{
+    color:black;
+    margin-left:60px;
+    position:relative;
+    top:-20px;
+}
 .nav-divider{
     color:Teal;
     font-size:12pt;
@@ -225,6 +241,9 @@ a:active {color:#FFFFFF;}  /* selected link */
     height:87%;
     overflow: auto;
 }
+.left8perc{
+    margin-left:5%;
+}
 .left-main-title{
     font-family:Verdana;
     font-size:12pt;
@@ -234,8 +253,8 @@ a:active {color:#FFFFFF;}  /* selected link */
 }
 .icons
 {
-    height:42px;
-    width:42px;
+    height:40px;
+    width:40px;
 }
 .edit-icons
 {
@@ -250,7 +269,7 @@ a:active {color:#FFFFFF;}  /* selected link */
     width:85%;
     margin-left:13%;
 }
-.Ln-height35{
+.definition-lnHeight{
     line-height: 35px;
 }
 
@@ -276,7 +295,7 @@ a:active {color:#FFFFFF;}  /* selected link */
 }
 .door-width-bounds{
     position:relative;
-    width:90%;
+    width:88%;
     Height:92%;
     margin:10% 0 0 0;
     overflow:auto;
@@ -293,6 +312,9 @@ a:active {color:#FFFFFF;}  /* selected link */
     border:0;
     font-size:9.75pt;
     text-align:center;
+}
+.lefttxt{
+    text-align: left;
 }
 #LCD{
     width:130px;
@@ -327,7 +349,7 @@ a:active {color:#FFFFFF;}  /* selected link */
     margin:0 5%;
 }
 a.button-long,a.button-short{
-    margin: 0 0 0 8%;
+    margin: 0 0 0 5%;
     display: inline-block;
     height: 19px;
     line-height: 19px;
@@ -343,30 +365,21 @@ a.button-short{
     width:80px;
 }
 
-.home-nav{
+.base-nav{
     display: inline-block;
     height: 50px;
     padding: 0px 50px 0px 0px;
     text-decoration: none;
+}
+.home-nav{
     background: url("img/passport_UIUX_petstatus_IDLE.png") no-repeat scroll right top transparent;
 }
 .door-nav{
-    display: inline-block;
-    height: 50px;
-    padding: 0px 50px 0px 0px;
-    text-decoration: none;
     background: url("img/passport_UIUX_doorsettings_IDLE.png") no-repeat scroll right top transparent;
-
 }
-
 .settings-nav{
-    display: inline-block;
-    height: 50px;
-    padding: 0px 50px 0px 0px;
-    text-decoration: none;
     background: url("img/passport_UIUX_petsettings_IDLE.png") no-repeat scroll right top transparent;
 }
-
 
 .home-nav:hover{
     background: url("img/passport_UIUX_petstatus_OVER.png") no-repeat scroll right top transparent;
@@ -399,7 +412,9 @@ a.button-short{
     background: url(img/passport_interface_UIUX_silverBar.png);
     background-size: 100% 100%;
 }#copyright{
-     position:absolute; bottom:5%; width: 100%;
+     position:absolute;
+     bottom:4%;
+     width: 100%;
     text-align: center;
      font-size:10px;
      color:#ffffff;
@@ -420,7 +435,7 @@ a.button-short{
     display:block;
 }
 .right-header button{
-    border:0px solid black;
+    border:1px none black;
     background-color:transparent;
     width:34px;
 }

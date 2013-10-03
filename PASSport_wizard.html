@@ -84,13 +84,13 @@
                 <span id="lcdText">PASSport&trade;</span>
             </div>
             <div id="door-nav" class="door-nav-width-bounds hidden">
-                <a class="home-nav" href="#btnPetStatus" id="btnPetStatus" onclick="btnPetStatus_onclick()">
+                <a class="home-nav base-nav" href="#btnPetStatus" id="btnPetStatus" onclick="btnPetStatus_onclick()">
                 </a>
 
-                <a class="door-nav" href="#btnDoorSettings" id="btnDoorSettings" onclick="btnDoorSettings_onclick()">
+                <a class="door-nav base-nav" href="#btnDoorSettings" id="btnDoorSettings" onclick="btnDoorSettings_onclick()">
                 </a>
 
-                <a class="settings-nav" href="#btnPetSettings" id="btnPetSettings" onclick="btnPetSettings_onclick()">
+                <a class="settings-nav base-nav" href="#btnPetSettings" id="btnPetSettings" onclick="btnPetSettings_onclick()">
                 </a>
             </div>
             <div id="connecting" class="right-content-wrap">
@@ -182,9 +182,11 @@
                                 <option value="11">Nov</option>
                                 <option value="12">Dec</option>
                             </select>
+                            <span id="slash1">&nbsp;&nbsp;/&nbsp;&nbsp;</span>
                             <select id="selDay" onchange="selDay_onchange()">
                                 <option>12</option>
                             </select>
+                            <span id="slash2">&nbsp;&nbsp;/&nbsp;&nbsp;</span>
                             <select id="selYear" onchange="selMonthYear_onchange()">
                                 <option>2012</option>
                             </select>
@@ -210,7 +212,7 @@
             <div id="learnPet1" class="right-content-wrap">
                 <div class="door-width-bounds center-text">
                    <h2>Add Pet's ID:</h2>
-                    <p class="left-text">
+                    <p class="lefttxt">
                         Adding a pet's Passport Key is time sensitive. You will have 30 seconds to add a pet. <br /><br />
                         Bring your Pet / Key to door. Hold Passport Key 5-6 inches from center of main flap and parallel to flap. Wait for key to program during the 30 second countdown.<br /><br />
                         Then click the <strong>next</strong> button.
@@ -226,7 +228,7 @@
                 <div class="door-width-bounds center-text">
                 <img src = "img/clock.gif" width="150" alt="clock" />
                 <h2>Reading your pet's ID...</h2>
-                <p class="left-text">
+                <p class="lefttxt">
                     You should hear the door beep 3 times when
                     <strong><span id="curPetName">this pet</span>'s</strong> pet ID has been added. <br /><br />
                     <strong><span id="secsRemaining">30</span></strong> Seconds Remaining  </div>

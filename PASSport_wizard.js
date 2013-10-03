@@ -668,13 +668,15 @@ function selTime_onchange() {
 }
 
 function rbDateFormat_onchange() {
-    if (document.getElementById("rbMmmddyyyy").checked) {
-        door.dateFormat = Config_H.DATE_FORMAT_MMMDD;
+
+    if(document.getElementById('rbMmmddyyyy').checked){
         $("#selDay").before($("#selMonth"));
+        $("#selDay").before($("#slash1"));
     }
     else {
-        door.dateFormat = Config_H.DATE_FORMAT_DDMMM;
+        document.getElementById('rbDdmmmyyyy').checked = true;
         $("#selMonth").before($("#selDay"));
+        $("#selDay").after($("#slash1"));
     }
 }
 

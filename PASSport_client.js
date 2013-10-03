@@ -808,7 +808,7 @@ function refreshDateSelection() {
         else {
             document.getElementById('rbDdmmmyyyy').checked = true;
             $("#selMonth").before($("#selDay"));
-            $("#selDay").before($("#slash1"));
+            $("#selDay").after($("#slash1"));
         }
 
         //regenerate day #s if mon/year changed (some months have different number of days)

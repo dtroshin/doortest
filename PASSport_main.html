@@ -46,51 +46,52 @@
                     <img title="Home" src="img/passport_UIUX_home.png" alt="home" />
                 </button>
                 <span class="nav-divider">|</span>
-                <a href="javascript:void(0)" onclick="btnSidePnlNav_onclick('sidePnlUpdates');" style="margin-left:10px; margin-right:10px;">Updates</a>
+                <a href="javascript:void(0)" onclick="btnSidePnlNav_onclick('sidePnlUpdates');">Updates</a>
                 <span class="nav-divider">|</span>
-                <a href="javascript:void(0)" onclick="btnSidePnlNav_onclick('sidePnlSupport');" style="margin-left:10px; margin-right:10px;">Support</a>
+                <a href="javascript:void(0)" onclick="btnSidePnlNav_onclick('sidePnlSupport');">Support</a>
             </div>
 
             <div id="sidePnlUpdates" class="left-content-wrap">
                 <span class="left-main-title">Updates</span>
-                <div class="left-content">
-                    <p class="definition-align">
-                        <span>Computer Application Version: </span><span id="appVersion">---</span><br/>
-                        <span>Latest Version: </span><span id="latestSwVersion">---</span><br/>
-                        <a href="#" class="button-long" onclick="pnlSupport_btnDownloadSwUpdate_onclick()">Download</a>
-                    </p>
+                <div class="left-content left8perc">
+                        <p>
+                            <span>Computer Application Version: </span><span id="appVersion">---</span><br/>
+                            <span>Latest Version: </span><span id="latestSwVersion">---</span><br/>
+                            <a href="#" class="button-long" onclick="pnlSupport_btnDownloadSwUpdate_onclick()">Download</a>
+                        </p>
+                        <br/>
+                        <p>
+                            <span>Door Firmware Version:</span> <span id="fwVersion">---</span><br />
+                            <span>Latest Firmware Version:</span> <span id="latestFwVersion">---</span><br/>
+                            <a href="#" class="button-short" id="btnInstallFwUpdate" onclick="pnlSupport_btnInstallFirmware_onclick()">Install</a>
+                        </p>
 
-                    <p class="definition-align">
-                        <span>Door Firmware Version:</span> <span id="fwVersion">---</span><br />
-                        <span>Latest Firmware Version:</span> <span id="latestFwVersion">---</span><br/>
-                        <a href="#" class="button-short" id="btnInstallFwUpdate" onclick="pnlSupport_btnInstallFirmware_onclick()">Install</a>
-                    </p>
-
-                    <div id="fwUpdateProgressDiv" style = "width:300px; display:none;">
-                        <meter id="mtrUpdateProgress" style="margin-left: 50px; width:300px; height:25px;" value="50" min="0" max="100"></meter><br />
-                        <span id="lblUpdateProgress" style="color:black; margin-left:60px; position:relative; top:-20px;">0%</span> <br />
-                        <div style="margin-left: 50px; width:300px;">
-                            <span style="color:red;">DO NOT disconnect the cable or power down the computer/door while update is in progress.</span>
+                        <div id="fwUpdateProgressDiv">
+                            <meter id="mtrUpdateProgress" value="50" min="0" max="100"></meter><br />
+                            <span id="lblUpdateProgress">0%</span> <br />
+                            <div style="margin-left: 50px; width:300px;">
+                                <span style="color:red;">DO NOT disconnect the cable or power down the computer/door while update is in progress.</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="align-bottom">
-                        <span>Door Serial Number:&nbsp;</span> <span id="DoorSerialNumber">--</span>
-                    </div>
+                        <div class="align-bottom">
+                            <span>Door Serial Number:&nbsp;</span> <span id="DoorSerialNumber">--</span>
+                        </div>
                 </div>
             </div>
             <div id="sidePnlSupport" class="left-content-wrap">
                 <span class="left-main-title">Support</span>
-                <div class="left-content">
+                <div class="left-content left8perc">
+                    <br/><br/>
                     <a class="button-long" href="#" onclick="pnlSupport_btnSetupWizard_onclick()">Setup Wizard</a>
                     &nbsp;&nbsp;
                     <span>Run easy setup wizard to configure your door.</span>
-                    <br /><br />
+                    <br /><br /><br />
 
                     <a class="button-long" href="#" onclick="pnlSupport_btnFactReset_onclick()">Factory Reset</a>
                     &nbsp;&nbsp;
                     <span>Reset your door to factory defaults.</span>
-                    <br /><br />
+                    <br /><br /><br />
 
                     <a class="button-long" href="#" onclick="pnlSupport_btnReboot_onclick()">Reboot Door</a>
                     &nbsp;&nbsp;
@@ -112,19 +113,19 @@
                     You can also view each pet's history of going in and out.</p>
                     <div class="clear"></div>
                     <img class="icons" src="img/passport_UIUX_petin.png" alt="#"/>
-                    <p class="definition-align ln-height35">Indicates pet is inside.</p>
+                    <p class="definition-align definition-lnHeight">Indicates pet is inside.</p>
                     <div class="clear"></div>
 
                     <img class="icons" src="img/passport_UIUX_petout.png" alt="#"/>
-                    <p class="definition-align ln-height35">Indicates pet is outside.<p>
+                    <p class="definition-align definition-lnHeight">Indicates pet is outside.<p>
                     <div class="clear"></div>
 
                     <img class="icons" src="img/passport_UIUX_history.png" alt="#"/>
-                    <p class="definition-align ln-height35">View pet's history.</p>
+                    <p class="definition-align definition-lnHeight">View pet's history.</p>
                     <div class="clear"></div>
 
                     <img class="icons" src="img/passport_UIUX_edit.png" alt="#"/>
-                    <p class="definition-align ln-height35">Edit pet's settings.</p>
+                    <p class="definition-align definition-lnHeight">Edit pet's settings.</p>
                     <div class="clear"></div>
                 </div>
             </div>
@@ -147,17 +148,17 @@
                     </p>
                     <div class="clear"></div>
                     <img class="icons" src="img/passport_UIUX_WIRELESS_ON_No_BG.png" alt="#" />
-                    <p class="definition-align Ln-height35">
-                         The Passport&trade; Wireless Card is connected to door.
+                    <p class="definition-align definition-lnHeight">
+                        Indicates the Passport&trade; Wireless Card is connected to door.
                     </p>
                     <div class="clear"></div>
                     <img class="icons" src="img/passport_UIUX_USB_ON_No_BG.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Indicates a USB cable is connected to door.
                     </p>
                     <div class="clear"></div>
                     <img class="edit-icons" src="img/Power_Supply_Icon_small.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Indicates the power adapter is connected to door.
                     </p>
                     <div class="clear"></div>
@@ -182,17 +183,17 @@
                     </p>
                     <div class="clear"></div>
                     <img class="edit-icons" src="img/passport_UIUX_edit.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Quick link to Pet Settings page to edit the pet&apos;s settings.
                     </p>
                     <div class="clear"></div>
                     <img class="icons" src="img/passport_UIUX_petin.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Indicates pet is inside.
                     </p>
                     <div class="clear"></div>
                     <img class="icons" src="img/passport_UIUX_petout.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Indicates pet is outside.
                     </p>
                     <div class="clear"></div>
@@ -201,7 +202,6 @@
             <div id="sidePnlDoorSettings_help" class="left-content-wrap">
                 <span class="left-main-title">Door Settings</span>
                 <div class="left-content">
-
                     <img class="icons" src="img/passport_UIUX_doorsettings_OVER.png" alt="#" />
                     <p class="definition-align">
                         Customize the door operation and settings. Select the door operational mode and set the time, date and language. Also set Low Battery Mode.
@@ -213,27 +213,27 @@
                     </p>
                     <div class="clear"></div>
                     <img class="icons" src="img/passport_UIUX_help_OVER_andONCLICK.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Get help using the Passport&trade; and the Computer Application.
                     </p>
                     <div class="clear"></div>
                     <img class="save-cancel-icons" src="img/passport_UIUX_cancel_BUTTON_IDLE.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Cancel changes and keep current Door Settings.
                     </p>
                     <div class="clear"></div>
                     <img class="save-cancel-icons" src="img/passport_UIUX_done_BUTTON_IDLE.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Save changes to Door Settings.
                     </p>
                     <div class="clear"></div>
                     <img class="edit-icons" src="img/passport_UIUX_edit.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Edit or rename door.
                     </p>
                     <div class="clear"></div>
                     <img class="edit-icons" src="img/passport_UIUX_delete.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Delete or remove door.
                     </p>
                     <div class="clear"></div>
@@ -244,22 +244,22 @@
                     </p>
                     <div class="clear"></div>
                     <img class="edit-icons" src="img/Clock.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Set time and time format used by the Passport™..
                     </p>
                     <div class="clear"></div>
                     <img class="edit-icons" src="img/Calendar.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Set date format used by the Passport™.
                     </p>
                     <div class="clear"></div>
                     <img class="edit-icons" src="img/passport_UIUX_locked_ICON.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         When in Low Battery Mode, select to lock or unlock door.
                     </p>
                     <div class="clear"></div>
                     <img class="edit-icons" src="img/passport_UIUX_beepon_ICON.png" alt="#" />
-                    <p class="definition-align Ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         When in Low Battery Mode, select to turn on or turn off alert.
                     </p>
                     <div class="clear"></div>
@@ -285,49 +285,49 @@
                     </p>
                     <div class="clear"></div>
                     <img class="save-cancel-icons" src="img/passport_UIUX_cancel_BUTTON_IDLE.png" alt="#" />
-                    <p class="definition-align ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Cancel changes and keep current Pet Settings.
                     </p>
                     <div class="clear"></div>
                     <img class="save-cancel-icons" src="img/passport_UIUX_done_BUTTON_IDLE.png" alt="#" />
-                    <p class="definition-align ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Save changes to Pet Settings.
                     </p>
                     <div class="clear"></div>
                     <span class="sizetext2em">&nbsp;+</span>
-                    <p class="definition-align ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Add a pet to the Passport™. Up to 20 pets can be added.
                     </p>
                     <div class="clear"></div>
                     <img class="edit-icons" src="img/passport_UIUX_edit.png" alt="#" />
-                    <p class="definition-align ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Edit or rename pet.
                     </p>
                     <div class="clear"></div>
                     <img class="edit-icons" src="img/passport_UIUX_delete.png" alt="#" />
-                    <p class="definition-align ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Delete or remove pet.
                     </p>
                     <div class="clear"></div>
 
                     <img class="icons" src="img/Pet_Access_Mode.png" alt="#" />
-                    <p class="definition-align ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Change Pet Access Mode with 4 mode options: In/Out,
                         In-Only, Out-Only and Timer.
                     </p>
                     <div class="clear"></div>
                     <img class="icons" src="img/passport_UIUX_relatchtime_ICON.png" alt="#" />
-                    <p class="definition-align ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Set how many seconds until door re-locks after pet goes through.
                     </p>
                     <div class="clear"></div>
                     <img class="icons" src="img/passport_UIUX_intone_ICON.png" alt="#" />
-                    <p class="definition-align ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Select a tone to play when pet comes in. Can also turn tone off.
                     </p>
                     <div class="clear"></div>
                     <img class="icons" src="img/passport_UIUX_outtone_ICON.png" alt="#" />
-                    <p class="definition-align ln-height35">
+                    <p class="definition-align definition-lnHeight">
                         Select a tone to play when pet goes out. Can also turn tone off.
                     </p>
                     <div class="clear"></div>
@@ -342,16 +342,16 @@
                 <img id="usbIndicator" src="img/passport_UIUX_USB_OFF.png" alt="#"/>
             </div>
             <div id="LCD">
-                <span>PASSport&trade;</span>
+                <span id="lcdText">PASSport&trade;</span>
             </div>
             <div id="door-nav" class="door-nav-width-bounds ">
-                <a class="home-nav" href="#btnPetStatus" id="btnPetStatus" onclick="btnPetStatus_onclick()">
+                <a class="home-nav base-nav" href="#btnPetStatus" id="btnPetStatus" onclick="btnPetStatus_onclick()">
                 </a>
 
-                <a class="door-nav" href="#btnDoorSettings" id="btnDoorSettings" onclick="btnDoorSettings_onclick()">
+                <a class="door-nav base-nav" href="#btnDoorSettings" id="btnDoorSettings" onclick="btnDoorSettings_onclick()">
                 </a>
 
-                <a class="settings-nav" href="#btnPetSettings" id="btnPetSettings" onclick="btnPetSettings_onclick()">
+                <a class="settings-nav base-nav" href="#btnPetSettings" id="btnPetSettings" onclick="btnPetSettings_onclick()">
                 </a>
             </div>
             <div id="Connecting" class="right-content-wrap">
@@ -401,6 +401,7 @@
                     </div>
 
                     <!--door name and edit/delete buttons -->
+                    <br/>
                     <select disabled style="width: 110px;">
                         <option id="cmbSelectDoor" value="New Door">New Door</option>
                     </select>
@@ -741,10 +742,9 @@
 
             <!-- add pet pages -->
             <div id="add-pets" class="right-content-wrap">
-                <div class="door-width-bounds">
+                <div class="door-width-bounds center-text">
                     <div id="namePet">
                         <br /><br /><br /><br />
-                        <center>
                             <h2>Add a pet:</h2>
                             Enter a name for this pet:<br />
                             <input id="tbPetName" type="text" maxlength="12" style="outline:none;"/>
@@ -754,29 +754,24 @@
                             <button onclick="namePet_next()" style="border:0px; background-color:transparent;">
                                 <img src="img/Next.png" alt="next" width="80" />
                             </button>
-                        </center>
                     </div>
                     <div id="learnPet1">
-                        <center>
                             <h2>Add Pet's ID</h2>
-                        </center>
-                        <p>
+                        <p class="lefttxt">
                             Adding a pet's Passport Key is time sensitive. You will have 30 seconds to add a pet. <br /><br />
                             Bring your Pet / Key to door. Hold Passport Key 5-6 inches from center of main flap and parallel to flap. Wait for key to program during the 30 second countdown.<br /><br/>
                             Then click the <strong>next</strong> button.
                         </p>
-                        <center>
                             <button onclick="showStep_namePet()" style="border:0px; background-color:transparent;"><img src="img/Prev.png" alt="next" width="80" /></button>
                             <button onclick="learnPet1_next()" style="border:0px; background-color:transparent;"><img src="img/Next.png" alt="next" width="80" /></button>
-                        </center>
                     </div>
                     <div id="learnPet2">
-                        <center>
                             <img src = "img/clock.gif" width="150" alt="clock" />
                             <h2>Reading your pet's ID...</h2>
-                        </center>
-                        You should hear the door beep 3 times when <strong><span id="curPetName">this pet</span>'s</strong> pet ID has been added. <br /><br />
-                        <strong><span id="secsRemaining">30</span></strong> Seconds Remaining
+                        <p class="lefttxt">
+                            You should hear the door beep 3 times when <strong><span id="curPetName">this pet</span>'s</strong> pet ID has been added. <br /><br />
+                            <strong><span id="secsRemaining">30</span></strong> Seconds Remaining
+                        </p>
                     </div>
                 </div>
             </div>
